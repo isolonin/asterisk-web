@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="java">
+
+<body>
+
+<!--/*@thymesVar id="endPoint" type="i.solonin.asteriskweb.model.EndPoint"*/-->
+<div class="container" th:fragment="form (action)">
+    <div class="row">
+        <div class="col-lg-10 mt-1 mb-1">
+            <!--/*@thymesVar id="endPoint" type="i.solonin.asteriskweb.model.EndPoint"*/-->
+            <form action="#" th:action="${action}" th:object="${endPoint}"
+                  method="post">
+                <button type="submit" name="save" class="btn btn-outline-primary">Сохранить</button>
+                <a href="/endpoints" class="btn btn-outline-dark">Отменить</a>
+                <input type="hidden" th:field="*{new}">
+                <div class="form-group">
+                    <label for="endpointId">ID</label>
+                    <input id="endpointId" class="form-control"
+                           th:field="*{id}" th:attr="disabled=${endPoint.id}">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></div>
+                </div>
+                <div class="form-group">
+                    <label for="transport">Transport</label>
+                    <input id="transport" class="form-control" th:field="*{transport}">
+                </div>
+                <div class="form-group">
+                    <label for="contact">Contact</label>
+                    <input id="contact" class="form-control" name="contact" th:value="${endPoint.aors?.contact}">
+                    <input th:if="${!endPoint.new}" type="hidden" th:field="*{aors}">
+                </div>
+                <div class="form-group">
+                    <label for="context">Context</label>
+                    <input id="context" class="form-control" th:field="*{context}">
+                </div>
+                <div class="form-group">
+                    <label for="username">User Name</label>
+                    <input id="username" class="form-control" name="username" th:value="${endPoint.auth?.username}"
+                           autocomplete="one-time-code">
+                    <input th:if="${!endPoint.new}" type="hidden" th:field="*{auth}">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input id="password" class="form-control" name="password" th:value="${endPoint.auth?.password}"
+                           type="password" autocomplete="one-time-code">
+                </div>
+                <div class="form-group">
+                    <label for="disallow">Disallow</label>
+                    <input id="disallow" class="form-control" th:field="*{disallow}">
+                </div>
+                <div class="form-group">
+                    <label for="allow">Allow</label>
+                    <input id="allow" class="form-control" th:field="*{allow}">
+                </div>
+                <div class="form-group">
+                    <label for="directMedia">Direct Media</label>
+                    <input id="directMedia" class="form-control" th:field="*{directMedia}">
+                </div>
+                <div class="form-group">
+                    <label for="callerId">Caller Id</label>
+                    <input id="callerId" class="form-control" th:field="*{callerId}">
+                </div>
+                <div class="form-group">
+                    <label for="toneZone">Tone Zone</label>
+                    <input id="toneZone" class="form-control" th:field="*{toneZone}">
+                </div>
+                <div class="form-group">
+                    <label for="language">Language</label>
+                    <input id="language" class="form-control" th:field="*{language}">
+                </div>
+                <div class="form-group">
+                    <label for="fromDomain">From Domain</label>
+                    <input id="fromDomain" class="form-control" th:field="*{fromDomain}">
+                </div>
+                <div class="form-group">
+                    <label for="fromUser">From User</label>
+                    <input id="fromUser" class="form-control" th:field="*{fromUser}">
+                </div>
+                <div class="form-group">
+                    <label for="msisdn">Forward Number</label>
+                    <input id="msisdn" class="form-control" th:field="*{msisdn}">
+                </div>
+                <div class="form-group">
+                    <label for="identifies">Identifies</label>
+                    <input id="identifies" class="form-control" name="ids" th:value="${endPoint.identifiesAsString}">
+                    <!--/*@thymesVar id="item" type="i.solonin.asteriskweb.model.EndPoint"*/-->
+                    <div th:each="item, iter : *{identifies}">
+                        <input type="hidden" th:field="*{identifies[__${iter.index}__].id}">
+                        <input type="hidden" th:field="*{identifies[__${iter.index}__].endPoint.id}">
+                        <input type="hidden" th:field="*{identifies[__${iter.index}__].match}">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

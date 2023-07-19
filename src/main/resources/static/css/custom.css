@@ -1,0 +1,15 @@
+.actions {
+    display: flex;
+}
+
+.actions > a:first-child {
+    margin-right: 5px;
+}
+
+input:focus, select:focus {
+    box-shadow: none !important;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}

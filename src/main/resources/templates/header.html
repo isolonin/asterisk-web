@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="java" th:fragment="header (title)">
+<title th:text="${title}"></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<script th:src="@{/webjars/jquery/jquery.js} "></script>
+<script th:src="@{/webjars/font-awesome/js/all.js} "></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.js} "></script>
+<script th:src="@{/js/confirm.js} "></script>
+
+<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "/>
+<link th:rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css} "/>
+<link th:rel="stylesheet" th:href="@{/css/custom.css} "/>
+</html>

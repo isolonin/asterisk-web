@@ -1,0 +1,296 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="java">
+
+<head th:insert="~{header :: header ('Настройка аккаунтов')}"></head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        Статистика звонков
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/endpoints">
+                        Настройка аккаунтов
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!--/*@thymesVar id="result" type="org.springframework.data.domain.Page"*/-->
+<!--/*@thymesVar id="asc" type="java.lang.String"*/-->
+<div class="container" style="max-width: 1700px">
+    <div class="row">
+        <div class="col-10 mt-1 mb-1">
+            <!--/*@thymesVar id="successMessage" type="java.lang.String"*/-->
+            <div th:if="${successMessage}" class="alert alert-success" role="alert" th:text="${successMessage}"></div>
+
+            <!--/*@thymesVar id="END_POINTS_FILTER" type="i.solonin.asteriskweb.model.filter.EndPointFilter"*/-->
+            <form action="#" th:action="@{/endpoints}" th:object="${END_POINTS_FILTER}" method="post">
+                <div style="display: flex; justify-content: space-between">
+                    <div>
+                        <a href="/endpoints/add" class="btn btn-outline-primary" style="margin-bottom: 10px">
+                            Добавить
+                            <i class="fa-solid fa-plus"></i>
+                        </a>
+                    </div>
+                    <div>
+                        <div>
+
+                        </div>
+                        <div class="input-group">
+                            <select id="size" class="form-select form-control" th:field="*{size}"
+                                    title="Кол-во результатов" style="max-width: 80px">
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            <input th:field="*{search}" type="text" class="form-control" placeholder="Поиск"
+                                   aria-describedby="apply">
+                            <button id="apply" type="submit" title="Применить" class="btn btn-outline-dark">
+                                <i class="fa-solid fa-check"></i>
+                            </button>
+                            <button id="reset" type="submit" name="reset" title="Сбросить" class="btn btn-outline-dark">
+                                <i class="fa-solid fa-ban"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+
+            <!--/*@thymesVar id="item" type="i.solonin.asteriskweb.model.EndPoint"*/-->
+            <table class="table table-bordered" style="width: 100%">
+                <thead class="table-secondary">
+                <tr>
+                    <th th:with="order=${result.sort.getOrderFor('id')}">
+                        <a class="link-secondary" th:if="${order}" th:href="@{'?o=id&a=' + ${order.getDirection()}}">
+                            Id
+                            <i th:if="${order}" class="fa-solid"
+                               th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
+                        </a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=id&a=ASC'}">Id</a>
+                    </th>
+                    <th th:with="order=${result.sort.getOrderFor('transport')}">
+                        <a class="link-secondary" th:if="${order}"
+                           th:href="@{'?o=transport&a=' + ${order.getDirection()}}">
+                            Transport
+                            <i th:if="${order}" class="fa-solid"
+                               th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
+                        </a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=transport&a=ASC'}">Transport</a>
+                    </th>
+                    <th th:with="order=${result.sort.getOrderFor('aors')}">
+                        <a class="link-secondary" th:if="${order}" th:href="@{'?o=aors&a=' + ${order.getDirection()}}">
+                            AoRs
+                            <i th:if="${order}" class="fa-solid"
+                               th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
+                        </a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=aors&a=ASC'}">AoRs</a>
+                    </th>
+                    <th th:with="order=${result.sort.getOrderFor('auth')}">
+                        <a class="link-secondary" th:if="${order}" th:href="@{'?o=auth&a=' + ${order.getDirection()}}">
+                            Auths
+                            <i th:if="${order}" class="fa-solid"
+                               th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
+                        </a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=auth&a=ASC'}">Auths</a>
+                    </th>
+                    <th th:with="order=${result.sort.getOrderFor('identifies')}">
+                        <a class="link-secondary" th:if="${order}"
+                           th:href="@{'?o=identifies&a=' + ${order.getDirection()}}">
+                            Identifies
+                            <i th:if="${order}" class="fa-solid"
+                               th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
+                        </a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=identifies&a=ASC'}">Identifies</a>
+                    </th>
+
+                    <th th:with="order=${result.sort.getOrderFor('context')}">
+                        <a class="link-secondary" th:if="${order}"
+                           th:href="@{'?o=context&a=' + ${order.getDirection()}}">
+                            Context
+                            <i th:if="${order}" class="fa-solid"
+                               th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
+                        </a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=context&a=ASC'}">Context</a>
+                    </th>
+                    <th th:with="order=${result.sort.getOrderFor('disallow')}">
+                        <a class="link-secondary" th:if="${order}"
+                           th:href="@{'?o=disallow&a=' + ${order.getDirection()}}">
+                            Disallow
+                            <i th:if="${order}" class="fa-solid"
+                               th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
+                        </a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=disallow&a=ASC'}">Disallow</a>
+                    </th>
+                    <th th:with="order=${result.sort.getOrderFor('allow')}">
+                        <a class="link-secondary" th:if="${order}" th:href="@{'?o=allow&a=' + ${order.getDirection()}}">
+                            Allow
+                            <i th:if="${order}" class="fa-solid"
+                               th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
+                        </a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=allow&a=ASC'}">Allow</a>
+                    </th>
+                    <th th:with="order=${result.sort.getOrderFor('directMedia')}">
+                        <a class="link-secondary" th:if="${order}"
+                           th:href="@{'?o=directMedia&a=' + ${order.getDirection()}}">
+                            Direct Media
+                            <i th:if="${order}" class="fa-solid"
+                               th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
+                        </a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=directMedia&a=ASC'}">Direct
+                            Media</a>
+                    </th>
+                    <th th:with="order=${result.sort.getOrderFor('callerId')}">
+                        <a class="link-secondary" th:if="${order}"
+                           th:href="@{'?o=callerId&a=' + ${order.getDirection()}}">
+                            Caller Id
+                            <i th:if="${order}" class="fa-solid"
+                               th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
+                        </a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=callerId&a=ASC'}">Caller Id</a>
+                    </th>
+                    <th th:with="order=${result.sort.getOrderFor('toneZone')}">
+                        <a class="link-secondary" th:if="${order}"
+                           th:href="@{'?o=toneZone&a=' + ${order.getDirection()}}">
+                            Tone Zone
+                            <i th:if="${order}" class="fa-solid"
+                               th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
+                        </a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=toneZone&a=ASC'}">Tone Zone</a>
+                    </th>
+                    <th th:with="order=${result.sort.getOrderFor('language')}">
+                        <a class="link-secondary" th:if="${order}"
+                           th:href="@{'?o=language&a=' + ${order.getDirection()}}">
+                            Language
+                            <i th:if="${order}" class="fa-solid"
+                               th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
+                        </a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=language&a=ASC'}">Language</a>
+                    </th>
+                    <th th:with="order=${result.sort.getOrderFor('fromDomain')}">
+                        <a class="link-secondary" th:if="${order}"
+                           th:href="@{'?o=fromDomain&a=' + ${order.getDirection()}}">
+                            From Domain
+                            <i th:if="${order}" class="fa-solid"
+                               th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
+                        </a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=fromDomain&a=ASC'}">From
+                            Domain</a>
+                    </th>
+                    <th th:with="order=${result.sort.getOrderFor('fromUser')}">
+                        <a class="link-secondary" th:if="${order}"
+                           th:href="@{'?o=fromUser&a=' + ${order.getDirection()}}">
+                            From User
+                            <i th:if="${order}" class="fa-solid"
+                               th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
+                        </a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=fromUser&a=ASC'}">From User</a>
+                    </th>
+                    <th th:with="order=${result.sort.getOrderFor('msisdn')}">
+                        <a class="link-secondary" th:if="${order}"
+                           th:href="@{'?o=msisdn&a=' + ${order.getDirection()}}">
+                            MSISDN
+                            <i th:if="${order}" class="fa-solid"
+                               th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
+                        </a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=msisdn&a=ASC'}">Forward Number</a>
+                    </th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:each="item : ${result.content}">
+                    <td th:text="${item.id}"></td>
+                    <td th:text="${item.transport}"></td>
+                    <td th:text="${item.aors}"></td>
+                    <td th:text="${item.auth}"></td>
+                    <td>
+                        <small th:text="${item.identifiesAsString}"></small>
+                    </td>
+                    <td th:text="${item.context}"></td>
+                    <td th:text="${item.disallow}"></td>
+                    <td th:text="${item.allow}"></td>
+                    <td th:text="${item.directMedia}"></td>
+                    <td th:text="${item.directMedia}"></td>
+                    <td th:text="${item.toneZone}"></td>
+                    <td th:text="${item.language}"></td>
+                    <td th:text="${item.fromDomain}"></td>
+                    <td th:text="${item.fromUser}"></td>
+                    <td th:text="${item.msisdn}"></td>
+                    <td class="actions">
+                        <a th:href="@{/endpoints/{id}/edit(id=${item.id})}" class="btn btn-outline-primary btn-sm"
+                           title="Редактировать">
+                            <i class="fa-regular fa-edit"></i>
+                        </a>
+                        <button type="button" th:attr="data-url=@{/endpoints/{id}/delete(id=${item.id})}"
+                                class="btn btn-outline-danger btn-sm" th:title="${'Удалить ' + item.id}"
+                                data-bs-toggle="modal" data-bs-target="#confirmDialog">
+                            <i class="fa-regular fa-trash-alt"></i>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!--/*@thymesVar id="o" type="java.lang.String"*/-->
+            <!--/*@thymesVar id="asc" type="java.lang.Boolean"*/-->
+            <!--/*@thymesVar id="page" type="java.lang.Integer"*/-->
+            <nav th:if="${result.totalPages > 1}" th:with="url=${'?o=' + o + '&a=' + asc}">
+                <ul class="pagination">
+                    <li class="page-item disabled">
+                        <a class="page-link link-secondary" th:text="${'Всего: ' + result.totalElements}"></a>
+                    </li>
+                    <li class="page-item" th:classappend="${page eq 1} ? 'disabled'">
+                        <a class="page-link link-secondary" th:href="@{${url} +'&p=1'}">
+                            <<
+                        </a>
+                    </li>
+                    <li class="page-item"
+                        th:each="i : ${#numbers.sequence(page, result.totalPages > 10 + page ? page + 10 : result.totalPages, 1)}">
+                        <a class="page-link link-secondary" th:if="${page != i}" th:href="@{${url} +'&p=' + ${i}}">[[${i}]]</a>
+                        <span class="page-link active" th:unless="${page != i}">[[${i}]]</span>
+                    </li>
+                    <li>
+                        <a class="page-link link-secondary" th:classappend="${page >= result.totalPages} ? 'disabled'"
+                           th:href="@{${url} +'&p=' + ${result.totalPages}}">
+                            >>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="modal fade" id="confirmDialog" tabindex="-1" role="dialog"
+                 aria-labelledby="confirm-dialog-label" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirm-dialog-label">Удалить</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Действительно хотите удалить аккаунт?
+                        </div>
+                        <div class="modal-footer">
+                            <button data-role="delete" type="button" class="btn btn-danger">Удалить</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

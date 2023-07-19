@@ -1,0 +1,178 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="java">
+<head th:insert="~{header :: header ('Статистика')}"></head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/">
+                        Статистика звонков
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/endpoints">
+                        Настройка аккаунтов
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!--/*@thymesVar id="result" type="org.springframework.data.domain.Page"*/-->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-10 mt-1 mb-1">
+            <table class="table table-bordered" style="width: 100%">
+                <thead class="table-secondary">
+                <tr>
+                    <th th:with="order=${result.sort.getOrderFor('start')}" style="min-width: 135px">
+                        <a class="link-secondary" th:if="${order}" th:href="@{'?o=start&a=' + ${order.getDirection()}}">
+                            Время начала вызова
+                            <i th:if="${order}" class="fa-solid"
+                               th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
+                        </a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=start&a=ASC'}">Время начала вызова</a>
+                    </th>
+                    <th th:with="order=${result.sort.getOrderFor('end')}" style="min-width: 135px">
+                        <a class="link-secondary" th:if="${order}" th:href="@{'?o=end&a=' + ${order.getDirection()}}">
+                            Время завершения вызова
+                            <i th:if="${order}" class="fa-solid"
+                               th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
+                        </a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=end&a=ASC'}">Время завершения вызова</a>
+                    </th>
+                    <th th:with="order=${result.sort.getOrderFor('src')}">
+                        <a class="link-secondary" th:if="${order}" th:href="@{'?o=src&a=' + ${order.getDirection()}}">
+                            Вызывающий
+                            <i th:if="${order}" class="fa-solid"
+                               th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
+                        </a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=src&a=ASC'}">Вызывающий</a>
+                    </th>
+                    <th th:with="order=${result.sort.getOrderFor('dst')}">
+                        <a class="link-secondary" th:if="${order}" th:href="@{'?o=dst&a=' + ${order.getDirection()}}">
+                            Вызываемый
+                            <i th:if="${order}" class="fa-solid"
+                               th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
+                        </a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=dst&a=ASC'}">Вызываемый</a>
+                    </th>
+                    <th th:with="order=${result.sort.getOrderFor('duration')}">
+                        <a class="link-secondary" th:if="${order}" th:href="@{'?o=duration&a=' + ${order.getDirection()}}">
+                            Длительность вызова (сек)
+                            <i th:if="${order}" class="fa-solid"
+                               th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
+                        </a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=duration&a=ASC'}">Длительность вызова (сек)</a>
+                    </th>
+                    <th th:with="order=${result.sort.getOrderFor('billsec')}">
+                        <a class="link-secondary" th:if="${order}" th:href="@{'?o=billsec&a=' + ${order.getDirection()}}">
+                            Длительность разговора (сек)
+                            <i th:if="${order}" class="fa-solid"
+                               th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
+                        </a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=billsec&a=ASC'}">Длительность разговора (сек)</a>
+                    </th>
+                    <th th:with="order=${result.sort.getOrderFor('disposition')}" style="min-width: 105px">
+                        <a class="link-secondary" th:if="${order}" th:href="@{'?o=disposition&a=' + ${order.getDirection()}}">
+                            Статус
+                            <i th:if="${order}" class="fa-solid"
+                               th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
+                        </a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=disposition&a=ASC'}">Статус</a>
+                    </th>
+                    <th th:with="order=${result.sort.getOrderFor('record')}">
+                        <a class="link-secondary" th:if="${order}" th:href="@{'?o=record&a=' + ${order.getDirection()}}">
+                            Аудиозапись
+                            <i th:if="${order}" class="fa-solid"
+                               th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
+                        </a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=record&a=ASC'}">
+                            Аудиозапись
+                        </a>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <!--/*@thymesVar id="item" type="i.solonin.asteriskweb.model.CDR"*/-->
+                <tr th:each="item : ${result.content}">
+                    <td>
+                        <small th:text="${#temporals.format(item.start, 'yyyy.MM.dd HH:mm:ss')}"></small>
+                    </td>
+                    <td>
+                        <small th:text="${#temporals.format(item.end, 'yyyy.MM.dd HH:mm:ss')}"></small>
+                    </td>
+                    <td th:text="${item.src}"></td>
+                    <td th:text="${item.dst}"></td>
+                    <td th:text="${item.duration}"></td>
+                    <td th:text="${item.billsec}"></td>
+                    <td th:text="${item.disposition.title}"></td>
+                    <td style="text-align: center; vertical-align: middle">
+                        <a class="link-secondary" th:if="${item.haveRecord}" th:href="@{/file/{path}(path=${item.record})}">
+                            <i class="fa-solid fa-download" title="Аудиозапись"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!--/*@thymesVar id="o" type="java.lang.String"*/-->
+            <!--/*@thymesVar id="asc" type="java.lang.Boolean"*/-->
+            <!--/*@thymesVar id="page" type="java.lang.Integer"*/-->
+            <nav th:if="${result.totalPages > 1}" th:with="url=${'?o=' + o + '&a=' + asc}">
+                <ul class="pagination">
+                    <li class="page-item disabled">
+                        <a class="page-link link-secondary" th:text="${'Всего: ' + result.totalElements}"></a>
+                    </li>
+                    <li class="page-item" th:classappend="${page eq 1} ? 'disabled'">
+                        <a class="page-link link-secondary" th:href="@{${url} +'&p=1'}">
+                            <<
+                        </a>
+                    </li>
+                    <li class="page-item" th:each="i : ${#numbers.sequence(page, result.totalPages > 10 + page ? page + 10 : result.totalPages, 1)}">
+                        <a class="page-link link-secondary" th:if="${page != i}" th:href="@{${url} +'&p=' + ${i}}">[[${i}]]</a>
+                        <span class="page-link active" th:unless="${page != i}">[[${i}]]</span>
+                    </li>
+                    <li>
+                        <a class="page-link link-secondary" th:classappend="${page >= result.totalPages} ? 'disabled'"
+                           th:href="@{${url} +'&p=' + ${result.totalPages}}">
+                            >>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="col-lg-2 mt-1 mb-1">
+            <!--/*@thymesVar id="CALLS_FILTER" type="i.solonin.asteriskweb.model.filter.CallsFilter"*/-->
+            <form action="#" th:action="@{/}" th:object="${CALLS_FILTER}" method="post">
+                <div class="form-group">
+                    <label for="src">Вызывающий:</label>
+                    <input id="src" class="form-control" th:field="*{src}">
+                </div>
+                <div class="form-group">
+                    <label for="dst">Вызываемый:</label>
+                    <input id="dst" class="form-control" th:field="*{dst}">
+                </div>
+                <div class="form-group">
+                    <label for="size">Кол-во результатов:</label>
+                    <select id="size" class="form-select" th:field="*{size}">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+                <p><input type="submit" value="Применить"/> <input type="submit" name="reset" value="Сбросить"/></p>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
