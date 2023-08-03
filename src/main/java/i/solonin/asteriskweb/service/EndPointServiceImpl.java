@@ -44,7 +44,7 @@ public class EndPointServiceImpl implements EndPointService {
     public void save(EndPoint endPoint) {
         //AoR
         if ("".equals(endPoint.getContact())) endPoint.setContact(null);
-        if (endPoint.getAors() == null) {
+        if (endPoint.getAors() == null || StringUtils.isEmpty(endPoint.getAors().getId())) {
             AoR aor = aorRepository.findById(endPoint.getId()).orElse(new AoR(endPoint.getId()));
             aor.setContact(endPoint.getContact());
             endPoint.setAors(aor);
@@ -53,7 +53,7 @@ public class EndPointServiceImpl implements EndPointService {
         }
 
         //Auth
-        if (endPoint.getAuth() == null) {
+        if (endPoint.getAuth() == null || StringUtils.isEmpty(endPoint.getAuth().getId())) {
             if (!StringUtils.isEmpty(endPoint.getUsername())) {
                 Auth auth = authRepository.findById(endPoint.getId())
                         .orElse(new Auth(endPoint.getId()));

@@ -24,6 +24,8 @@ public class CDR {
     private String accountcode;
     @Column(length = 80)
     private String src;
+    @Column(length = 80, name = "realsrc")
+    private String realSrc;
     @Column(length = 80)
     private String dst;
     @Column(length = 80)

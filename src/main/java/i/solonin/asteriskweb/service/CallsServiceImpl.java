@@ -19,19 +19,25 @@ import java.nio.file.Paths;
 @Service
 @RequiredArgsConstructor
 public class CallsServiceImpl implements CallsService {
-    @Value("${asteris.monitor}")
+    @Value("${asterisk.monitor}")
     private String path;
 
     private final CDRRepository cdrRepository;
 
     @Override
     public Page<CDR> findAll(CallsFilter filter, String order, boolean asc, int page) {
-        Sort sort = asc ? Sort.by(order).ascending() : Sort.by(order).descending();
+        Sort sort;
+        if ("src".equals(order))
+            sort = asc ? Sort.by("realSrc").and(Sort.by(order)).ascending() : Sort.by("realSrc").and(Sort.by(order)).descending();
+        else
+            sort = asc ? Sort.by(order).ascending() : Sort.by(order).descending();
+
         Pageable pageable = PageRequest.of(page, filter.getSize(), sort);
         if (filter.isEmpty())
             return cdrRepository.findAll(pageable);
         else
-            return cdrRepository.findBySrcLikeOrDstLike(filter.getSrcLike(), filter.getDstLike(), pageable);
+            return cdrRepository.findBySrcLikeOrDstLikeOrRealSrcLike(filter.getSrcLike(), filter.getDstLike(),
+                    filter.getSrcLike(), pageable);
     }
 
     @Override

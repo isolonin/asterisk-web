@@ -106,7 +106,8 @@
                     <td>
                         <small th:text="${#temporals.format(item.end, 'yyyy.MM.dd HH:mm:ss')}"></small>
                     </td>
-                    <td th:text="${item.src}"></td>
+                    <td th:if="${item.realSrc}" th:text="${item.realSrc}"></td>
+                    <td th:unless="${item.realSrc}" th:text="${item.src}"></td>
                     <td th:text="${item.dst}"></td>
                     <td th:text="${item.duration}"></td>
                     <td th:text="${item.billsec}"></td>

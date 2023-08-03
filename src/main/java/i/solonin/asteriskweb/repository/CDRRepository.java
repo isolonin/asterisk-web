@@ -6,5 +6,5 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.ListPagingAndSortingRepository;
 
 public interface CDRRepository extends ListPagingAndSortingRepository<CDR, String> {
-    Page<CDR> findBySrcLikeOrDstLike(String src, String dst, Pageable pageable);
+    Page<CDR> findBySrcLikeOrDstLikeOrRealSrcLike(String src, String dst, String realSrc, Pageable pageable);
 }
