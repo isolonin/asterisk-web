@@ -35,7 +35,8 @@
                             <i th:if="${order}" class="fa-solid"
                                th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
                         </a>
-                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=start&a=ASC'}">Время начала вызова</a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=start&a=ASC'}">Время начала
+                            вызова</a>
                     </th>
                     <th th:with="order=${result.sort.getOrderFor('end')}" style="min-width: 135px">
                         <a class="link-secondary" th:if="${order}" th:href="@{'?o=end&a=' + ${order.getDirection()}}">
@@ -43,7 +44,8 @@
                             <i th:if="${order}" class="fa-solid"
                                th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
                         </a>
-                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=end&a=ASC'}">Время завершения вызова</a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=end&a=ASC'}">Время завершения
+                            вызова</a>
                     </th>
                     <th th:with="order=${result.sort.getOrderFor('src')}">
                         <a class="link-secondary" th:if="${order}" th:href="@{'?o=src&a=' + ${order.getDirection()}}">
@@ -62,23 +64,28 @@
                         <a class="link-secondary" th:unless="${order}" th:href="@{'?o=dst&a=ASC'}">Вызываемый</a>
                     </th>
                     <th th:with="order=${result.sort.getOrderFor('duration')}">
-                        <a class="link-secondary" th:if="${order}" th:href="@{'?o=duration&a=' + ${order.getDirection()}}">
+                        <a class="link-secondary" th:if="${order}"
+                           th:href="@{'?o=duration&a=' + ${order.getDirection()}}">
                             Длительность вызова (сек)
                             <i th:if="${order}" class="fa-solid"
                                th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
                         </a>
-                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=duration&a=ASC'}">Длительность вызова (сек)</a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=duration&a=ASC'}">Длительность
+                            вызова (сек)</a>
                     </th>
                     <th th:with="order=${result.sort.getOrderFor('billsec')}">
-                        <a class="link-secondary" th:if="${order}" th:href="@{'?o=billsec&a=' + ${order.getDirection()}}">
+                        <a class="link-secondary" th:if="${order}"
+                           th:href="@{'?o=billsec&a=' + ${order.getDirection()}}">
                             Длительность разговора (сек)
                             <i th:if="${order}" class="fa-solid"
                                th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
                         </a>
-                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=billsec&a=ASC'}">Длительность разговора (сек)</a>
+                        <a class="link-secondary" th:unless="${order}" th:href="@{'?o=billsec&a=ASC'}">Длительность
+                            разговора (сек)</a>
                     </th>
                     <th th:with="order=${result.sort.getOrderFor('disposition')}" style="min-width: 105px">
-                        <a class="link-secondary" th:if="${order}" th:href="@{'?o=disposition&a=' + ${order.getDirection()}}">
+                        <a class="link-secondary" th:if="${order}"
+                           th:href="@{'?o=disposition&a=' + ${order.getDirection()}}">
                             Статус
                             <i th:if="${order}" class="fa-solid"
                                th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
@@ -86,7 +93,8 @@
                         <a class="link-secondary" th:unless="${order}" th:href="@{'?o=disposition&a=ASC'}">Статус</a>
                     </th>
                     <th th:with="order=${result.sort.getOrderFor('record')}">
-                        <a class="link-secondary" th:if="${order}" th:href="@{'?o=record&a=' + ${order.getDirection()}}">
+                        <a class="link-secondary" th:if="${order}"
+                           th:href="@{'?o=record&a=' + ${order.getDirection()}}">
                             Аудиозапись
                             <i th:if="${order}" class="fa-solid"
                                th:classappend="${#strings.equals(asc, 'ASC') ? 'fa-sort-down' : 'fa-sort-up'}"></i>
@@ -113,7 +121,8 @@
                     <td th:text="${item.billsec}"></td>
                     <td th:text="${item.disposition.title}"></td>
                     <td style="text-align: center; vertical-align: middle">
-                        <a class="link-secondary" th:if="${item.haveRecord}" th:href="@{/file/{path}(path=${item.record})}">
+                        <a class="link-secondary" th:if="${item.haveRecord}"
+                           th:href="@{/file/{path}(path=${item.record})}">
                             <i class="fa-solid fa-download" title="Аудиозапись"></i>
                         </a>
                     </td>
@@ -130,13 +139,25 @@
                         <a class="page-link link-secondary" th:text="${'Всего: ' + result.totalElements}"></a>
                     </li>
                     <li class="page-item" th:classappend="${page eq 1} ? 'disabled'">
-                        <a class="page-link link-secondary" th:href="@{${url} +'&p=1'}">
+                        <a class="page-link link-secondary" th:href="@{${url} +'&p='}" th:if="${page >10}">
                             <<
                         </a>
+                    <li class="page-item" th:classappend="${page eq 1} ? 'disabled'">
+                        <a class="page-link link-secondary" th:if="${page != 1 }"
+                           th:href="@{${url} +'&p=' + ${page - 1}}">
+                            <
+                        </a>
                     </li>
-                    <li class="page-item" th:each="i : ${#numbers.sequence(page, result.totalPages > 10 + page ? page + 10 : result.totalPages, 1)}">
+                    <li class="page-item"
+                        th:each="i : ${#numbers.sequence(page, result.totalPages > 10 + page ? page + 10 : result.totalPages, 1)}">
                         <a class="page-link link-secondary" th:if="${page != i}" th:href="@{${url} +'&p=' + ${i}}">[[${i}]]</a>
                         <span class="page-link active" th:unless="${page != i}">[[${i}]]</span>
+                    </li>
+                    <li>
+                        <a class="page-link link-secondary" th:classappend="${page >= result.totalPages} ? 'disabled'"
+                           th:href="@{${url} +'&p=' + ${page + 1}}">
+                            >
+                        </a>
                     </li>
                     <li>
                         <a class="page-link link-secondary" th:classappend="${page >= result.totalPages} ? 'disabled'"
