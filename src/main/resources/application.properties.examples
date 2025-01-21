@@ -1,0 +1,12 @@
+asterisk.monitor=
+spring.datasource.url=jdbc:postgresql://127.0.0.1:5432/asterisk?stringtype=unspecified
+spring.datasource.username=
+spring.datasource.password=
+spring.security.user.name=
+spring.security.user.password=
+
+logging.file.name=logs/asterisk-web.log
+logging.pattern.file=%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%t] %C{1}:%line - %msg%n
+logging.pattern.console=%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%t] %C{1}:%line - %msg%n
+logging.level.root=info
+logging.logback.rollingpolicy.total-size-cap=1GB
