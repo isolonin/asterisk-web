@@ -45,7 +45,7 @@ public class CDR {
     private LocalDateTime end;
     private Integer duration;
     private Integer billsec;
-    @Column
+    @Column(name = "real_status")
     @Convert(converter = DispositionConverter.class)
     private Disposition disposition;
     @Column(length = 45)
@@ -63,15 +63,19 @@ public class CDR {
     private Integer sequence;
 
     public boolean haveRecord() {
-        return disposition.equals(Disposition.ANSWERED) && !StringUtils.isEmpty(record);
+        return disposition.equals(Disposition.ANSWER) && !StringUtils.isEmpty(record);
     }
 
     public enum Disposition {
-        FAILED("Неуспешно"),
-        BUSY("Занято"),
-        NO_ANSWER("Не отвечен"),
+        CHANUNAVAIL("Канал недоступен"),
         CONGESTION("Проблема с каналом связи"),
-        ANSWERED("Отвечен");
+        NOANSWER("Не отвечен"),
+        BUSY("Занято"),
+        ANSWER("Отвечен"),
+        CANCEL("Исходящий вызов был отменён"),
+        DONTCALL("Вызов был отклонён"),
+        TORTURE("Вызов был отклонён"),
+        INVALIDARGS("Внутренняя ошибка");
 
         @Getter
         private final String title;
