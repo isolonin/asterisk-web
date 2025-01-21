@@ -1,5 +1,7 @@
 For starting use folow docker-compose.yml:
-version: '3.5'
+
+
+```version: '3.5'
 
 services:
   java:
