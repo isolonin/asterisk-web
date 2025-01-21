@@ -63,7 +63,7 @@ public class CDR {
     private Integer sequence;
 
     public boolean haveRecord() {
-        return billsec > 0 && !StringUtils.isEmpty(record);
+        return disposition.equals(Disposition.ANSWERED) && !StringUtils.isEmpty(record);
     }
 
     public enum Disposition {
