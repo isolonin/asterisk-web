@@ -1,4 +1,10 @@
-For starting use folow docker-compose.yml:
+Call statistic example:
+![calls](calls.jpg)
+
+Settings example:
+![settings](settings.png)
+
+For starting use follow docker-compose.yml:
 
 
 ```version: '3.5'
