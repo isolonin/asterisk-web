@@ -1,6 +1,8 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" lang="java">
-<head th:insert="~{header :: header ('Статистика')}"></head>
+<head th:insert="~{header :: header ('Статистика')}">
+    <title>Статистика</title>
+</head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
@@ -111,7 +113,7 @@
                     <td th:text="${item.dst}"></td>
                     <td th:text="${item.duration}"></td>
                     <td th:text="${item.billsec}"></td>
-                    <td th:text="${item.disposition.title}"></td>
+                    <td th:text="${(item.dcontext eq 'in' ? 'Входящий' : 'Исходящий').concat(' ').concat(item.disposition.title)}"></td>
                     <td style="text-align: center; vertical-align: middle">
                         <a class="link-secondary" th:if="${item.haveRecord}" th:href="@{/file/{path}(path=${item.record})}">
                             <i class="fa-solid fa-download" title="Аудиозапись"></i>
@@ -134,7 +136,7 @@
                             <<
                         </a>
                     </li>
-                    <li class="page-item" th:each="i : ${#numbers.sequence(page, result.totalPages > 10 + page ? page + 10 : result.totalPages, 1)}">
+                    <li class="page-item" th:each="i : ${#numbers.sequence(page, (result.totalPages > 10 + page ? page + 10 : result.totalPages), 1)}">
                         <a class="page-link link-secondary" th:if="${page != i}" th:href="@{${url} +'&p=' + ${i}}">[[${i}]]</a>
                         <span class="page-link active" th:unless="${page != i}">[[${i}]]</span>
                     </li>
